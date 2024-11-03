@@ -25,7 +25,6 @@ const addChild = (parentId) => {
       parent.children.push(newChild);
       resolve(newChild);
     } else {
-      //   console.log(`No Parent found agains ${parentId}`);
       reject(`No Parent found with id ${parentId}`);
     }
   });
@@ -40,7 +39,9 @@ const addGrandChild = (parentId, childId) => {
         const prevId = child.children.length;
         const newGrandChild = {
           id: prevId + 1,
-          name: `GrandChild-${prevId + 1}`,
+          name: `GrandChild-${
+            prevId + 1
+          } of child-${childId} of parent-${parentId}`,
           children: [],
         };
         child.children.push(newGrandChild);
@@ -57,25 +58,35 @@ const addGrandChild = (parentId, childId) => {
 };
 
 const showFullTree = () => {
-  console.log("getFamilyTree");
-  getFamilyTree();
+  //   console.log("getFamilyTree");
+  //   getFamilyTree();
   console.log("getParents");
   getChildren(1, familyTree);
   console.log("getChildren");
-  getChildren(2, familyTree);
+  getChildren(3, familyTree);
 };
 
 const getFamilyTree = () => {
   console.log(JSON.stringify(familyTree, null, 2));
 };
 
+// const getChildren = (level, nodes, count = 1) => {
+//   if (level == count) {
+//     const data = nodes.flat().map((node) => node.name);
+//     console.log(data);
+//   } else {
+//     const children = nodes.flatMap((node) => node.children);
+//     return getChildren(level, children, count + 1);
+//   }
+// };
+
 const getChildren = (level, nodes, count = 1) => {
-  if (level == count) {
-    const data = nodes.flat().map((node) => node.name);
-    console.log(data);
+  if (count == level) {
+    const names = nodes.map((node) => node.name);
+    console.log(names);
   } else {
     const children = nodes.flatMap((node) => node.children);
-    return getChildren(level, children, count + 1);
+    getChildren(level, children, count + 1);
   }
 };
 
