@@ -4,7 +4,7 @@
 console.log("=========================Synchronous======================");
 
 // Synchronous
-// In synchronous programming, tasks are executed sequentially. Each operation must complete before the next one starts. This can lead to blocking behavior, meaning that if a function takes a long time to execute, it will delay the execution of the following code.
+// In synchronous programming, tasks are executed sequentially. Each operation must complete before the next one starts. This can lead to blocking behavior, meaning that if a function takes a long time to execute, it will delay the execution.
 
 function syncTask() {
   console.log("Task 1");
@@ -35,12 +35,12 @@ function asyncTask() {
 }
 
 asyncTask();
-console.log("This runs immediately after Task 1");
+console.log("This runs immediately after Task 2");
 
 // Output:
 // Task 1
 // Task 3
-// This runs immediately after Task 1
+// This runs immediately after Task 2
 // Task 2 (completed after 2 seconds)
 
 // In JavaScript, there are several ways to perform asynchronous operations. Here are the most common methods:

@@ -1,5 +1,7 @@
+// ---------------------
+// ---------------------
 // JavaScript functions are executed in the sequence they are called. Not in the sequence they are defined.
-
+console.log("============ Fucntion call vs Function defined ============");
 function myFirst() {
   myDisplayer("Hello");
 }
@@ -45,6 +47,8 @@ function myCalculator(num1, num2) {
 
 myCalculator(5, 5);
 
+console.log("============ callback ============");
+
 // A callback is a function passed as an argument to another function.
 // Using a callback, you could call the calculator function (myCalculator) with a callback (myCallback), and let the calculator function run the callback after the calculation is finished:
 
@@ -75,66 +79,3 @@ function itrateArr(arr, callbackFn) {
 }
 
 console.log(itrateArr([4, 1, -20, -7, 5, 9, -6], (x) => x > 0));
-
-console.log("=======================Callback Hell=========================");
-
-function getUserLimitedData(users) {
-  const userNamesAndAge = users.map((user) => {
-    return { id: user.id, age: user.age, name: user.firstName };
-  });
-
-  return userNamesAndAge;
-}
-
-function getUsersAboveAge(userData) {
-  const aboveAge = userData.filter((user) => user.age > 40);
-  console.log("aboveAge ===> ", aboveAge);
-}
-
-function userData(data) {
-  const users = data.users;
-  return users;
-}
-function fetchUsers(url, fullData, limitedData, aboveAge) {
-  fetch(url)
-    .then((response) => {
-      if (!response.ok) throw new Error("Network response was not ok");
-      else return response.json();
-    })
-    .then((data) => {
-      return fullData(data);
-    })
-    .then((userData) => {
-      return limitedData(userData);
-    })
-    .then((limitedData) => {
-      return aboveAge(limitedData);
-    })
-    .catch((error) => {
-      console.log("Error: " + error.message);
-    });
-}
-
-// fetchUsers(
-//   "https://dummyjson.com/users",
-//   userData,
-//   getUserLimitedData,
-//   getUsersAboveAge
-// );
-
-console.log("=======================Solution=========================");
-
-const getUsers = async (url) => {
-  try {
-    const response = await fetch(url);
-    if (!response.ok) throw new Error("Network response was not ok");
-    const jsonData = await response.json();
-    const users = userData(jsonData);
-    const limitedData = getUserLimitedData(users);
-    getUsersAboveAge(limitedData);
-  } catch (error) {
-    console.log("error ===> ", error.message);
-  }
-};
-
-getUsers("https://dummyjson.com/users");
