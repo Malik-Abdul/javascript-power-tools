@@ -9,25 +9,51 @@
 
 console.log("=========================Shallow Copy==========================");
 
+// Shallow Copy vs Deep copy
+// There are two ways to clone an object in Javascript:
+// Shallow copy: means that only the first level of the object is copied. Deeper levels are referenced.
+// Deep copy: means that all levels of the object are copied. This is a true copy of the object.
+
+// Shallow copy
+// A shallow copy can be achieved using the spread operator (…) or using Object.assign():
+
 const xArray = [1, 2, 3];
-const yArray = xArray;
-const zArray = [...yArray, 10];
+const yArray = [...xArray, 4];
 
-console.log("xArray ===> ", xArray); // xArray ===>  [ 1, 2, 3 ]
-console.log("yArray ===> ", yArray); // yArray ===>  [ 1, 2, 3 ]
-console.log("zArray ===> ", zArray); // zArray ===>  [ 1, 2, 3, 10 ]
+console.log("xArray ===> ", xArray);
+// xArray ===>  [ 1, 2, 3 ]
+console.log("yArray ===> ", yArray);
+// yArray ===>  [ 1, 2, 3, 4 ]
 
-// so we have made a shallow copy using the spread operator
+// The two xArray and yArray, do not point to the same reference. Here's why:
+// The spread operator (...) creates a shallow copy of the array.
+// bArray is initialized as a new array that contains all the elements of aArray followed by the number 4.
+// This means bArray is a new array with a new reference in memory, separate from aArray.
 
-// we can also use the Object.assign
+console.log("xArray === yArray =>", xArray === yArray);
+// xArray === yArray => false
+
+const yyArray = yArray;
+// When you assign yyArray = yArray, you are not creating a new array. Instead, yyArray and yArray both refer to the same array in memory.
+// Any changes made to yyArray will also affect yArray because both are pointing to the same underlying array.
+yyArray.push(21);
+
+console.log("yArray ===> ", yArray);
+// yArray ===>  [ 1, 2, 3, 4, 21 ]
+console.log("yyArray ===> ", yyArray);
+// yyArray ===>  [ 1, 2, 3, 4, 21 ]
+
+console.log("yArray === yyArray => ", yArray === yyArray);
+// yArray === yyArray =>  true
+
+// We have made a shallow copy using the spread operator
+
+// We can also use the Object.assign
 
 const tArray = Object.assign([], zArray);
 
 console.log("tArray ===> ", tArray); // tArray ===>  [ 1, 2, 3, 10 ]
 console.log(tArray === zArray); // false because different memory references
-// so
-console.log("{} == {}");
-console.log({} == {}); // false
 
 tArray.push(11);
 console.log("tArray after push");
@@ -61,6 +87,45 @@ console.log(obj1 === obj2); // false (different references)
 
 const obj3 = obj1;
 console.log(obj1 === obj3); // true (same reference)
+
+// Using Objects
+
+const students = { id: 1, name: "St1", extra: { marks: 300 } };
+
+const studentsCopy = { ...students };
+studentsCopy.name = "St2";
+const studentsCopy2 = Object.assign({}, students);
+studentsCopy2.name = "St3";
+
+studentsCopy.extra.marks = 500;
+
+console.log("students ===> ", students);
+// { id: 1, name: 'St1', extra: { marks: 500 } }
+console.log("studentsCopy ===> ", studentsCopy);
+// { id: 1, name: 'St2', extra: { marks: 500 } }
+console.log("studentsCopy2 ===> ", studentsCopy2);
+// { id: 1, name: 'St3', extra: { marks: 500 } }
+
+// After updating a property in the first level of the cloned objects, the original property is not updated.
+// After updating a property in a deeper level, the original property is also updated. This happens because, in this case, deeper levels are referenced, not copied.
+
+// Deep copy
+// A deep copy can be achieved using JSON.parse() + JSON.stringify():
+
+const obj = { name: "Version 1", additionalInfo: { version: 1 } };
+const objCopy = JSON.parse(JSON.stringify(obj));
+
+objCopy.name = "Version 2";
+objCopy.additionalInfo.version = 2;
+
+console.log("obj ===> ", obj);
+//  { name: 'Version 1', additionalInfo: { version: 1 } }
+console.log("objCopy ===> ", objCopy);
+// { name: 'Version 2', additionalInfo: { version: 2 } }
+
+// so
+console.log("{} == {}");
+console.log({} == {}); // false
 
 // whether you use spread operator or Object.assign
 // when we make shallow copy, they do not share the references untill there is a nested structural data type
