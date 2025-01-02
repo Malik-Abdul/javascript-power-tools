@@ -2,7 +2,7 @@ const addTwo = (x) => x + 2;
 const subtractOne = (x) => x - 1;
 const multiplyFive = (x) => x * 5;
 
-// Notice how the functions executes from inside to outside & fro left to right
+// Notice how the functions executes from inside to outside & from left to right
 
 const result = multiplyFive(subtractOne(addTwo(2))); // 15
 
@@ -12,7 +12,10 @@ console.log("result ===> ", result);
 console.log([1, 2, 3].reduce((acc, item) => acc + item)); // 6
 console.log("initial value 2");
 console.log([1, 2, 3].reduce((acc, item) => acc + item, 2)); // 8
-const getMax = (a, b) => Math.max(a, b);
+const getMax = (a, b) => {
+  console.log(a, b);
+  return Math.max(a, b);
+};
 console.log([1, 2, 3].reduce(getMax)); // 3
 console.log([1, 2, 3].reduce(getMax, 5)); // 5
 

@@ -24,4 +24,4 @@ console.log(sArray);
 // we need to modify our function so it does not
 // mutate the original data
 
-// Before we change our to a pure function from an impure function we need to learn about shallow copy vs. Deep copy (clones)
+// Before we change to a pure function from an impure function we need to learn about shallow copy vs. Deep copy (clones)

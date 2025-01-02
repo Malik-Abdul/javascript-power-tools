@@ -1,5 +1,6 @@
 // So what is the closure:
 // A closure is a function having access to the parent scope, even after the parent function has closed.
+// A closure is a function that retains access to its parent scope, even after the parent function has finished executing.
 
 // There are 2 parst of above defination
 
@@ -15,16 +16,23 @@
 
 // Let modify the above example
 
+// Example 1: Basic Closure
+
+console.log("--------------------- Basic Closure ---------------------");
+
 // global
 var x = 2;
 
 function outerFunction() {
   let y = 3;
-  console.log("outerFunction y ===> ", y);
+  console.log("in outerFunction");
+  console.log("global x ===> ", x);
+  console.log("y ===> ", y);
 
   function innerFunction() {
     y = y + 2;
-    console.log("innerFunction y ===> ", y);
+    console.log("in innerFunction");
+    console.log("y ===> ", y);
     x = x + 2;
     console.log("global x ===> ", x);
 
@@ -36,22 +44,28 @@ function outerFunction() {
 }
 
 const fn = outerFunction();
-
-fn();
-fn();
-fn();
-
 // Output:
-
-// outerFunction y ===>  3
-// innerFunction y ===>  5
+// in outerFunction
+// lobal x ===>  2
+// y ===>  3
+console.log("------Callinf fn------");
+fn();
+// Output:
+// ------Callinf fn------
+// in innerFunction
+// y ===>  5
 // global x ===>  4
-// innerFunction y ===>  7
+console.log("------Callinf fn again------");
+fn();
+// output:
+// ------Callinf fn again------
+// in innerFunction
+// y ===>  7
 // global x ===>  6
-// innerFunction y ===>  9
-// global x ===>  8
 
-// Onother Example:
+console.log("-------------------------------------------------");
+
+// Example: 2
 
 function parentFunction() {
   let x = 3;
@@ -61,16 +75,19 @@ function parentFunction() {
   };
 }
 
-const fun = parentFunction();
-console.log(fun());
-console.log(fun());
-console.log(fun());
+// const fun = parentFunction();
+// console.log(fun());
+// console.log(fun());
+// console.log(fun());
 
 // Output:
 // x outside ===>  3
 // 13
 // 23
 // 33
+
+// Example 2: Data Encapsulation
+console.log("--------------------- Data Encapsulation ---------------------");
 
 // Purpose of Closures:
 // Data Encapsulation:
@@ -92,6 +109,10 @@ console.log(increment()); // 2
 
 // Closures are useful for creating factory functions, where the outer function provides a set of shared variables that the inner function can use, even when called later.
 
+// Example 3: Dynamic Function Creation
+
+console.log("--------------- Dynamic Function Creation ---------------");
+
 function createMultiplier(multiplier) {
   return function (num) {
     return num * multiplier; // closure retains access to `multiplier`
@@ -103,6 +124,10 @@ const triple = createMultiplier(3);
 
 console.log(double(5)); // 10
 console.log(triple(5)); // 15
+
+// Example 4: Dynamic Function Creation
+
+console.log("--------------- Asynchronous operations ---------------");
 
 // Callback Functions:
 
@@ -117,4 +142,58 @@ function fetchData(apiEndpoint) {
 const fetchUsers = fetchData("https://api.example.com/users");
 setTimeout(fetchUsers, 1000); // after 1 second, fetchUsers still knows `apiEndpoint`
 
-// Memory Efficiency:
+// Example 5: Memory Efficiency
+
+console.log("--------------- Memory Efficiency ---------------");
+
+function memoize(fn) {
+  const cache = {}; // Store results of previous calls
+
+  return function (arg) {
+    if (cache[arg] !== undefined) {
+      console.log(`Fetching from cache for: ${arg}`);
+      return cache[arg];
+    }
+
+    console.log(`Computing result for: ${arg}`);
+    const result = fn(arg);
+    cache[arg] = result; // Save result to cache
+    return result;
+  };
+}
+
+// Function to be memoized
+function square(n) {
+  return n * n;
+}
+
+// Create a memoized version of the square function
+const memoizedSquare = memoize(square);
+
+console.log(memoizedSquare(5)); // Computes and logs: 25
+console.log(memoizedSquare(5)); // Fetches from cache and logs: 25
+console.log(memoizedSquare(6)); // Computes and logs: 36
+console.log(memoizedSquare(6)); // Fetches from cache and logs: 36
+
+// // Memoize:
+// function memoize(fn) {
+//   const cache = {};
+//   return function (...args) {
+//     const key = JSON.stringify(args);
+//     if (cache[key]) {
+//       return cache[key];
+//     }
+//     const result = fn(...args);
+//     cache[key] = result;
+//     // console.log("From cache");
+//     return result;
+//   };
+// }
+
+// const factorial = memoize(function (n) {
+//   if (n === 0) return 1;
+//   return n * factorial(n - 1);
+// });
+
+// console.log(factorial(5)); // 120
+// console.log(factorial(5)); // Retrieved from cache: 120
