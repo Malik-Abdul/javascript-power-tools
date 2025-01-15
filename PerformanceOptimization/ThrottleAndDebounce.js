@@ -22,9 +22,13 @@ function logMessage(message) {
 }
 const debounceLog = debounce(logMessage, 1000);
 
-debounceLog("Hello");
+// debounceLog("Hello");
 debounceLog("Hi");
-debounceLog("How are you?");
+// debounceLog("How are you?");
+
+// setTimeout(() => debounceLog("Hello"), 0);
+// setTimeout(() => debounceLog("Hi"), 50); // Within the delay
+setTimeout(() => debounceLog("How are you?"), 100); // After the delay
 
 // Only "How are you?" will be logged after 1 second of inactivity.
 
@@ -35,26 +39,26 @@ debounceLog("How are you?");
 // Calls debouncedLog multiple times in quick succession.
 // Only the last call ("How are you?") is executed, as all prior calls are cleared by the timeout.
 
-const [input, setInput] = useState("");
-const [debounceInput, setDebounceInput] = useState(input);
+// const [input, setInput] = useState("");
+// const [debounceInput, setDebounceInput] = useState(input);
 
-useEffect(() => {
-  const handle = setTimeout(() => {
-    setDebounceInput(input);
-  }, 500);
-  return () => {
-    clearTimeout(handle);
-  };
-}, [input]);
+// useEffect(() => {
+//   const handle = setTimeout(() => {
+//     setDebounceInput(input);
+//   }, 500);
+//   return () => {
+//     clearTimeout(handle);
+//   };
+// }, [input]);
 
-useEffect(() => {
-  const fetcher = async () => {
-    const responce = await fetch("abc.com/users");
-    if (!responce.ok) {
-      throw new Error("Some error");
-    }
-    const jsonData = await responce.json();
-    setData(jsonData);
-  };
-  fetcher();
-}, [debounceInput]);
+// useEffect(() => {
+//   const fetcher = async () => {
+//     const responce = await fetch("abc.com/users");
+//     if (!responce.ok) {
+//       throw new Error("Some error");
+//     }
+//     const jsonData = await responce.json();
+//     setData(jsonData);
+//   };
+//   fetcher();
+// }, [debounceInput]);
